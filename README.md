@@ -1,30 +1,228 @@
-# IRIS---Intelligent-Robotic-Integrated-System
-A multipurpose IoT based autonomous robot designed for contactless material transport in restaurants, hospitals , and laboratories.
+**🤖 IRIS – Intelligent Robotic Integrated System**
 
-**Overall Idea**
+IRIS (Intelligent Robotic Integrated System) is a command-based, IoT-enabled autonomous mobile robot designed for safe and contactless indoor material transportation.
+The system is developed mainly for restaurants, hospitals, and laboratories, where repetitive delivery tasks or hazardous material handling are required.
 
-IRIS is an indoor mobile robot used to move items from one fixed point to another without human involvement. The robot is controlled using a simple web page. The user selects the destination and starts the task. The robot follows predefined paths and avoids obstacles using sensors. The same robot is used for different environments by changing the container and enabling required features.
+The project focuses on controlled movement, safety, and authorization, rather than complex AI navigation.
 
-**Restaurant Application**
+**📌 Problem Statement**
 
-For restaurant use, IRIS carries food items from the kitchen to tables or service areas. A simple open tray is placed on the robot. The operator selects the destination using the web interface and starts the robot. The robot moves along a fixed path and stops if any obstacle is detected. A radar-based rotating sensor scans the front area to detect people or objects early. After delivering the food, the robot can return to the base.
+In environments like hospitals, labs, and restaurants:
 
-**Hospital Application (Isolated Box + UV Light)**
+Human staff repeatedly transport items between fixed points
 
-For hospital use, the tray is replaced with an isolated box. This box is closed from all sides to protect the contents. Inside the box, a UV light is placed. The UV light helps in keeping medical tools and medicines disinfected during transport. The box opens only when an authorized staff member scans an RFID card. This ensures that only trained personnel can access the contents. This setup reduces contamination and human contact.
+There is risk of contamination, chemical exposure, and human error
 
-**Laboratory Application (Isolated Box + Gas Detection)**
+Many delivery paths are fixed and predictable
 
-For laboratory use, the robot carries hazardous or corrosive chemicals. An airtight isolated box is used so that chemicals do not leak outside. A gas sensor is mounted near the container to continuously check for any leakage. If gas is detected, a buzzer starts ringing to warn nearby people. The radar sensor also checks if someone comes too close to the robot and gives a warning. The box opens only after RFID verification.
+IRIS is designed to reduce human involvement in such repetitive and risky tasks by providing a safe, controlled, and repeatable robotic delivery system.
 
-**Radar Scanning (Easy Explanation)**
+**💡 Solution Overview**
 
-IRIS uses a sensor mounted on a small motor that rotates up to 180 degrees. This works like a simple radar. It helps the robot see obstacles, people, or objects in a wider area in front of it. This makes movement safer, especially in crowded indoor spaces.
+IRIS operates as a web-controlled robotic system where:
 
-**Control and Safety**
+An operator selects a predefined path from a web interface
 
-The robot is controlled using a basic HTML web page. The current state of the robot such as IDLE, MOVING, or DELIVERED is shown on the screen. A STOP button is provided for emergencies. Even if the robot is controlled online, safety features like obstacle detection, gas detection, and proximity alerts always work locally.
+The robot moves from Point A to Point B
 
-**Final Understanding**
+Delivery is confirmed digitally
 
-IRIS is a simple, modular robot. By changing the container and enabling specific features like UV light, gas sensing, or RFID, the same robot can be used in restaurants, hospitals, and laboratories. The project focuses on safety, simplicity, and repeatable indoor transportation.
+Optional RFID authentication ensures only authorized users can access contents
+
+The robot can return to source automatically
+
+The system is modular, meaning the same robot can be adapted for:
+
+Food delivery (restaurant)
+
+Sterilized tools transport (hospital)
+
+Hazardous material handling (laboratory)
+
+**⚙️ System Architecture (High Level)**
+Web Interface (HTML)
+        ↓
+ESP32 Web Server
+        ↓
+Task Controller & State Machine
+        ↓
+Motor Driver (L298N)
+        ↓
+Robot Movement + Sensors
+
+**🧠 Core Features**
+🔹 Command-Based Operation
+
+Tasks are sent from a web-based control panel
+
+Robot states:
+
+IDLE
+
+IN_TRANSIT
+
+DELIVERED
+
+RETURNING
+
+STOPPED
+
+ERROR
+
+**🔹 Predefined Path Navigation**
+
+Robot follows stored waypoints
+
+Suitable for indoor environments with fixed layouts
+
+No dependency on GPS or complex mapping
+
+**🔹 Web Control Panel (ESP32 Hosted)**
+
+Built-in ESP32 web server
+
+Allows:
+
+Path selection
+
+Task start / stop
+
+Return option
+
+RFID authorization toggle
+
+Live status monitoring
+
+**🔹 Secure RFID-Based Access Control**
+
+MFRC522 RFID module
+
+Only authorized RFID tags can unlock the container
+
+Servo motor controls lid opening and closing
+
+Used mainly for:
+
+Medical tools
+
+Hazardous materials
+
+**🔹 Isolated Container with UV Disinfection (Planned)**
+
+Sealed container accessory
+
+UV light for sterilization of contents
+
+Designed for hospital and laboratory use
+
+**🔹 Emergency Stop System**
+
+Can be triggered:
+
+From web interface
+
+Internally by system conditions
+
+Immediately halts motors
+
+Logs emergency event
+
+**🔹 Task Logging**
+
+Task ID generation
+
+Start time, delivery time, duration
+
+Stored using ESP32 Preferences
+
+Helps in monitoring and debugging
+
+**🧪 Safety Features (Planned & Expandable)**
+
+Gas sensor for chemical leakage detection
+
+Buzzer alert when hazardous materials are approached
+
+Servo-based radar (180° sweep) for obstacle awareness
+
+Future scope: camera-based detection and AI navigation
+
+**🧩 Hardware Components**
+
+Component	Purpose
+ESP32	Main controller + Wi-Fi
+L298N Motor Driver	Motor control
+DC Motors	Robot movement
+MFRC522 RFID	Authentication
+Servo Motor	Lid control / radar
+Ultrasonic Sensor	Obstacle detection
+Gas Sensor	Chemical leakage detection
+Buzzer	Safety alerts
+UV LED	Sterilization
+Battery Pack	Power supply
+
+**🧑‍💻 Software & Libraries Used**
+
+Arduino Framework
+
+ESP32 WiFi
+
+WebServer
+
+ArduinoJson
+
+MFRC522 (RFID)
+
+ESP32Servo
+
+Preferences (non-volatile storage)
+
+**🌐 Web API Endpoints**
+
+Endpoint	Method	Description
+/	GET	Control panel
+/status	GET	Robot status
+/start	POST	Start task
+/stop	POST	Emergency stop
+/paths	GET	Available paths
+/logs	GET	Task logs
+
+**🚀 How to Run**
+
+Install Arduino IDE
+
+Install ESP32 board support
+
+Install required libraries
+
+Update WiFi credentials in code
+
+Upload code to ESP32
+
+Open Serial Monitor to get IP address
+
+Open IP address in browser
+
+**📈 Future Scope**
+
+Camera-based navigation
+
+AI-based obstacle avoidance
+
+Mobile app integration
+
+Cloud logging and analytics
+
+Multi-robot coordination
+
+**👨‍🎓 Project Status**
+
+ESP32 hardware tested
+
+Web interface working
+
+Motor control logic implemented
+
+RFID authentication implemented
+
+Modular design ready for expansion
